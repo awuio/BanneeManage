@@ -35,6 +35,12 @@ class ShopController extends Controller
         $product->timestamps = false;
         $product->increment('views');
 
-        return view('shop.show', compact('product'));
+        // Fetch up to 10 related products from the same category, excluding the current product
+        $relatedProducts = Product::where('category_id', $product->category_id)
+            ->where('id', '!=', $product->id)
+            ->take(10)
+            ->get();
+
+        return view('shop.show', compact('product', 'relatedProducts'));
     }
 }

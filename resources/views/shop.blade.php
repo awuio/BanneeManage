@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <main class="container mx-auto mt-6 flex gap-6">
+    <main class="container mx-auto py-6 flex gap-6">
         <!-- Blog Posts Section -->
         <section class="w-3/4 bg-white p-6 shadow-md rounded-lg">
             <h2 class="text-xl font-semibold mb-4">Latest Products</h2>
@@ -87,3 +87,4 @@
     </main>
 
 </x-app-layout>
+

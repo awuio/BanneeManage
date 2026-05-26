@@ -17,7 +17,7 @@ class ProductDetailTest extends TestCase
         // 1. Create dependencies
         $user = User::factory()->create();
         $category = Category::create(['name' => 'Tech']);
-        
+
         $product = Product::create([
             'name' => 'MacBook Pro',
             'description' => 'Apple Silicon computer',
@@ -43,7 +43,7 @@ class ProductDetailTest extends TestCase
     {
         $user = User::factory()->create();
         $category = Category::create(['name' => 'Fashion']);
-        
+
         $product = Product::create([
             'name' => 'Gucci Bag',
             'price' => 120000,
@@ -65,7 +65,7 @@ class ProductDetailTest extends TestCase
     {
         $user = User::factory()->create();
         $category = Category::create(['name' => 'General']);
-        
+
         $p1 = Product::create([
             'name' => 'Low View Product',
             'price' => 1000,
@@ -73,7 +73,7 @@ class ProductDetailTest extends TestCase
             'category_id' => $category->id,
             'views' => 5,
         ]);
-        
+
         $p2 = Product::create([
             'name' => 'High View Product',
             'price' => 2000,

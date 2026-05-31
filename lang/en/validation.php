@@ -19,5 +19,8 @@ return [
             'required' => 'Please enter a password.',
             'confirmed' => 'Password and password confirmation do not match.',
         ],
+        'category_id' => [
+            'exists' => 'Category not found. Please select a valid category.',
+        ],
     ],
 ];

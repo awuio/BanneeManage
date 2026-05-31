@@ -14,6 +14,7 @@ class User extends Authenticatable
 
     /**
      * The attributes that are mass assignable.
+     * Note: 'is_admin' is intentionally excluded from mass assignment to prevent privilege escalation.
      *
      * @var list<string>
      */

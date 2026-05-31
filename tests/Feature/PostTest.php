@@ -63,3 +63,19 @@ test('admin can soft delete a post', function () {
     $response->assertRedirect(route('posts.index'));
     $this->assertSoftDeleted($post);
 });
+
+test('post creation fails with missing fields', function () {
+    $response = $this->actingAs($this->admin)->post(route('posts.store'), []);
+
+    $response->assertSessionHasErrors(['title', 'text', 'category_id']);
+});
+
+test('post creation fails with invalid category_id', function () {
+    $response = $this->actingAs($this->admin)->post(route('posts.store'), [
+        'title' => 'Title',
+        'text' => 'Content',
+        'category_id' => 99999, // Non-existent ID
+    ]);
+
+    $response->assertSessionHasErrors(['category_id']);
+});

@@ -18,10 +18,14 @@ class Category extends Model
      */
     protected static function booted(): void
     {
-        $clearCache = fn () => \Illuminate\Support\Facades\Cache::forget('categories_all');
+        $clearCache = function () {
+            \Illuminate\Support\Facades\Cache::forget('categories_all');
+            \Illuminate\Support\Facades\Cache::forget('dashboard_products_by_category');
+        };
 
         static::saved($clearCache);
         static::deleted($clearCache);
+        static::restored($clearCache);
     }
 
     /**

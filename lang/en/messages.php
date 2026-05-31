@@ -24,6 +24,7 @@ return [
     'nav_blog' => 'Blog',
     'nav_profile' => 'Profile',
     'nav_logout' => 'Log Out',
+    'nav_login' => 'Log In',
 
     // Shop UI
     'latest_products' => 'Latest Products',
@@ -106,6 +107,7 @@ return [
     'placeholder_category_name' => 'e.g. Electronics, Clothing, Food...',
     'hint_category_name' => 'The category name will be used to group products and posts.',
     'btn_save_category' => 'Save Category',
+    'btn_delete_category' => 'Delete Category',
 
     // Posts UI
     'title_manage_posts' => 'Manage Posts',
@@ -126,4 +128,5 @@ return [
     'no_categories_warning' => 'No categories available —',
     'create_category_link' => 'Create a new category',
     'btn_publish_post' => 'Publish Post',
+    'btn_delete_post' => 'Delete Post',
 ];

@@ -24,6 +24,7 @@ return [
     'nav_blog' => 'บล็อก',
     'nav_profile' => 'โปรไฟล์ส่วนตัว',
     'nav_logout' => 'ออกจากระบบ',
+    'nav_login' => 'เข้าสู่ระบบ',
 
     // Shop UI
     'latest_products' => 'สินค้าล่าสุด',
@@ -106,6 +107,7 @@ return [
     'placeholder_category_name' => 'เช่น อิเล็กทรอนิกส์, เสื้อผ้า, อาหาร...',
     'hint_category_name' => 'ชื่อหมวดหมู่จะถูกใช้เพื่อจัดกลุ่มสินค้าและบทความ',
     'btn_save_category' => 'บันทึกหมวดหมู่',
+    'btn_delete_category' => 'ลบหมวดหมู่',
 
     // Posts UI
     'title_manage_posts' => 'จัดการบทความ',
@@ -126,4 +128,5 @@ return [
     'no_categories_warning' => 'ยังไม่มีหมวดหมู่ —',
     'create_category_link' => 'สร้างหมวดหมู่ใหม่',
     'btn_publish_post' => 'เผยแพร่บทความ',
+    'btn_delete_post' => 'ลบบทความ',
 ];

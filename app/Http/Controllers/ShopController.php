@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Cache;
 
 class ShopController extends Controller
 {
-    // หน้าแสดงสินค้าทั้งหมดในร้าน (หรือหน้าแคตตาล็อก)
-    public function index()
+    // Display all products in the shop (catalog page)
+    public function index(\Illuminate\Http\Request $request)
     {
         $categories = Category::getCachedAll();
 
@@ -17,8 +17,8 @@ class ShopController extends Controller
         // 1. เติม with('category') เพื่อป้องกัน N+1 Query
         // 2. เปลี่ยน get() เป็น paginate() เพื่อให้รองรับข้อมูลจำนวนมากๆ ได้อย่างสวยงาม
         $products = Product::with('category')
-            ->when(request('category_id'), function ($query) {
-                $query->where('category_id', request('category_id'));
+            ->when($request->input('category_id'), function ($query, $categoryId) {
+                $query->where('category_id', $categoryId);
             })
             ->latest()
             ->paginate(8)
@@ -34,7 +34,7 @@ class ShopController extends Controller
         return view('shop', compact('categories', 'products', 'popularProducts'));
     }
 
-    // หน้าแสดงรายละเอียดสินค้า "ทีละ 1 ชิ้น"
+    // Display details for a single product
     public function show(Product $product)
     {
         $product->incrementViews();

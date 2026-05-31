@@ -11,7 +11,7 @@ class UpdatePostRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return $this->user()->can('update', $this->route('post'));
     }
 
     /**
@@ -28,16 +28,6 @@ class UpdatePostRequest extends FormRequest
 
             // ต้องมีข้อมูล และ ค่าที่ส่งมาต้องมีอยู่จริงในคอลัมน์ id ของตาราง categories
             'category_id' => ['required', 'exists:categories,id'],
-        ];
-    }
-
-    /**
-     * (Optional) สามารถ Custom ข้อความแจ้งเตือนเองได้ หากผู้ใช้กรอกผิด
-     */
-    public function messages(): array
-    {
-        return [
-            'category_id.exists' => 'ไม่พบหมวดหมู่นี้ในระบบ กรุณาเลือกใหม่',
         ];
     }
 }

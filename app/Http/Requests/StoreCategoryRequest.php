@@ -11,8 +11,7 @@ class StoreCategoryRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        // Allow all authenticated users since we use auth middleware on routes
-        return true;
+        return $this->user()->can('create', \App\Models\Category::class);
     }
 
     /**

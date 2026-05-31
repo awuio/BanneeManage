@@ -45,8 +45,8 @@ class PostController extends Controller
 
     public function update(UpdatePostRequest $request, Post $post)
     {
-        // เมื่อโค้ดทำงานมาถึงบรรทัดนี้ แปลว่าข้อมูลผ่านการตรวจสอบจาก UpdatePostRequest แล้ว 100%
-        // ใช้ $request->validated() เพื่อดึงเฉพาะข้อมูลที่อยู่ใน rules() มาอัปเดต
+        // When execution reaches this point, it means the data has passed validation from UpdatePostRequest 100%
+        // Use $request->validated() to retrieve only the data defined in the rules() for updating
         $post->update($request->validated());
 
         return redirect()->route('posts.index')->with('success', __('messages.post_updated'));

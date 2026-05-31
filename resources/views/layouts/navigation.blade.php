@@ -94,7 +94,7 @@
                 <div class="flex items-center">
                     <a href="{{ route('login') }}"
                         class="inline-flex items-center px-3 py-1.5 rounded-md text-sm font-medium text-zinc-700 hover:bg-zinc-100 transition ease-in-out duration-150">
-                        Login
+                        {{ __('messages.nav_login') }}
                     </a>
                 </div>
             @endauth
@@ -119,12 +119,12 @@
     <!-- Responsive Navigation Menu (Mobile) -->
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <!-- เมนูที่ทุกคนเห็น -->
+            <!-- Menu visible to everyone -->
             <x-responsive-nav-link :href="route('shop')" :active="request()->routeIs('shop')">
                 {{ __('messages.nav_shop') }}
             </x-responsive-nav-link>
 
-            <!-- เมนูเฉพาะ Admin ในมือถือ -->
+            <!-- Admin only menu on mobile -->
             @if (Auth::user()?->is_admin)
                 <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                     {{ __('messages.nav_dashboard') }}
@@ -143,7 +143,7 @@
         </div>
 
         @auth
-            <!-- ถ้าล็อกอินแล้ว ให้แสดงข้อมูลผู้ใช้และปุ่ม Logout -->
+            <!-- If logged in, show user info and logout button -->
             <div class="pt-4 pb-1 border-t border-zinc-200">
                 <div class="px-4">
                     <div class="font-medium text-sm text-zinc-900">{{ Auth::user()->name }}</div>
@@ -166,11 +166,11 @@
                 </div>
             </div>
         @else
-            <!-- ถ้ายังไม่ล็อกอิน ให้แสดงปุ่ม Login ในเมนูมือถือ -->
+            <!-- If not logged in, show login button in mobile menu -->
             <div class="pt-4 pb-1 border-t border-zinc-200">
                 <div class="mt-3 space-y-1">
                     <x-responsive-nav-link :href="route('login')">
-                        {{ __('Login') }}
+                        {{ __('messages.nav_login') }}
                     </x-responsive-nav-link>
                 </div>
             </div>

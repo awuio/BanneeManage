@@ -23,13 +23,13 @@ Route::get('/lang/{locale}', function ($locale) {
 
 Route::get('/shop', [ShopController::class, 'index'])->name('shop');
 Route::get('/shop/{product}', [ShopController::class, 'show'])->name('shop.show');
+Route::get('/blog', [BlogController::class, 'index'])->name('blog');
+Route::get('/blog/{post}', [BlogController::class, 'show'])->name('blog.show');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/blog', [BlogController::class, 'index'])->name('blog');
-    Route::get('/blog/{post}', [BlogController::class, 'show'])->name('blog.show');
 
     Route::middleware(IsAdminMiddleware::class)->group(function () {
         Route::resource('categories', CategoryController::class);

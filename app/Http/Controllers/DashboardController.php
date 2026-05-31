@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Product;
+use Illuminate\Support\Facades\Cache;
 
 class DashboardController extends Controller
 {
@@ -17,12 +18,14 @@ class DashboardController extends Controller
         $postsCount = Post::count();
 
         // Compile all product aggregate statistics into a single query to prevent database overload and reduce query count
-        $productStats = Product::selectRaw('
-            COUNT(*) as total_count,
-            SUM(price * quantity) as total_value,
-            SUM(CASE WHEN quantity = 0 THEN 1 ELSE 0 END) as out_of_stock,
-            SUM(CASE WHEN quantity BETWEEN 1 AND 5 THEN 1 ELSE 0 END) as low_stock
-        ')->first();
+        $productStats = Cache::remember('dashboard_product_stats', 300, function () {
+            return Product::selectRaw('
+                COUNT(*) as total_count,
+                SUM(price * quantity) as total_value,
+                SUM(CASE WHEN quantity = 0 THEN 1 ELSE 0 END) as out_of_stock,
+                SUM(CASE WHEN quantity BETWEEN 1 AND 5 THEN 1 ELSE 0 END) as low_stock
+            ')->first();
+        });
 
         $productsCount = $productStats->total_count ?? 0;
         $totalStockValue = $productStats->total_value ?? 0;
@@ -30,13 +33,17 @@ class DashboardController extends Controller
         $lowStockCount = $productStats->low_stock ?? 0;
 
         // Top 5 most viewed products
-        $topProducts = Product::orderBy('views', 'desc')->take(5)->get();
+        $topProducts = Cache::remember('dashboard_top_products', 300, function () {
+            return Product::orderBy('views', 'desc')->take(5)->get();
+        });
 
         // Products grouped by category for the distribution chart
-        $productsByCategory = Category::withCount('products')
-            ->orderBy('products_count', 'desc')
-            ->take(6)
-            ->get();
+        $productsByCategory = Cache::remember('dashboard_products_by_category', 300, function () {
+            return Category::withCount('products')
+                ->orderBy('products_count', 'desc')
+                ->take(6)
+                ->get();
+        });
 
         $recentProducts = Product::with('category')->latest()->take(5)->get();
         $recentPosts = Post::with('category')->latest()->take(5)->get();

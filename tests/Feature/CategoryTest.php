@@ -57,3 +57,19 @@ test('admin can soft delete a category', function () {
     $response->assertRedirect(route('categories.index'));
     $this->assertSoftDeleted($category);
 });
+
+test('category creation fails with missing fields', function () {
+    $response = $this->actingAs($this->admin)->post(route('categories.store'), []);
+
+    $response->assertSessionHasErrors(['name']);
+});
+
+test('category creation fails with duplicate name', function () {
+    $category = Category::factory()->create(['name' => 'Duplicate Name']);
+
+    $response = $this->actingAs($this->admin)->post(route('categories.store'), [
+        'name' => 'Duplicate Name',
+    ]);
+
+    $response->assertSessionHasErrors(['name']);
+});

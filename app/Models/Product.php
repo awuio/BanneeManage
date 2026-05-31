@@ -17,10 +17,15 @@ class Product extends Model
      */
     protected static function booted(): void
     {
-        $clearCache = fn () => \Illuminate\Support\Facades\Cache::forget('shop_popular_products');
+        $clearCache = function () {
+            \Illuminate\Support\Facades\Cache::forget('shop_popular_products');
+            \Illuminate\Support\Facades\Cache::forget('dashboard_product_stats');
+            \Illuminate\Support\Facades\Cache::forget('dashboard_top_products');
+        };
 
         static::saved($clearCache);
         static::deleted($clearCache);
+        static::restored($clearCache);
     }
 
     /**

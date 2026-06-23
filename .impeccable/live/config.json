@@ -1,0 +1,8 @@
+{
+  "files": [
+    "resources/views/**/*.blade.php"
+  ],
+  "insertBefore": "</head>",
+  "commentSyntax": "html",
+  "cspChecked": false
+}

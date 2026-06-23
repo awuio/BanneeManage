@@ -26,3 +26,6 @@ Thumbs.db
 GEMINI.md
 .agents
 
+# Cloudflare Tunnel binary (platform-specific, download from https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/)
+cloudflared.exe
+cloudflared

@@ -28,74 +28,117 @@ Before starting, ensure your local environment meets the following requirements:
 
 ## 💻 Installation Guide
 
-Follow these steps to get the project up and running on your local machine:
+Choose one of the following methods to install and run the project:
 
-**1. Clone the repository**
+### Option A: Using Docker (Laravel Sail) - Recommended
+This is the easiest method and does not require PHP or Composer installed on your host machine.
 
+**1. Clone the repository and configure `.env`**
 ```bash
-git clone <repository-url>
-cd OmniManage
+cp .env.example .env
+```
+*(Make sure to keep `DB_CONNECTION=mysql` and `DB_HOST=mysql` etc. in `.env` to match the Docker configuration).*
+
+**2. Start Docker Desktop**
+Ensure your Docker Desktop is running.
+
+**3. Install PHP Dependencies**
+If you have Composer installed locally:
+```bash
+composer install
+```
+If you **do not** have Composer installed, run this temporary Docker container to install PHP dependencies:
+```bash
+docker run --rm \
+    -v "$(pwd):/var/www/html" \
+    -w /var/www/html \
+    laravelsail/php84-composer:latest \
+    composer install --ignore-platform-reqs
 ```
 
-**2. Install PHP Dependencies**
+**4. Start the Containers**
+```bash
+./vendor/bin/sail up -d
+# Or using docker compose directly:
+docker compose up -d
+```
 
+**5. Generate Application Key**
+```bash
+./vendor/bin/sail artisan key:generate
+# Or: docker compose exec laravel.test php artisan key:generate
+```
+
+**6. Install Frontend Dependencies (Crucial for Windows users)**
+Always run `npm install` **inside the Linux container** to ensure that Linux-compatible binaries (such as Rollup/esbuild) are downloaded, preventing `ViteManifestNotFoundException` or `native.js` errors:
+```bash
+docker compose exec laravel.test npm install
+# Or: ./vendor/bin/sail npm install
+```
+
+**7. Run Migrations & Seeders**
+```bash
+docker compose exec laravel.test php artisan migrate --seed
+# Or: ./vendor/bin/sail artisan migrate --seed
+```
+
+**8. Create Storage Link**
+```bash
+docker compose exec laravel.test php artisan storage:link
+# Or: ./vendor/bin/sail artisan storage:link
+```
+
+The application will be accessible at:
+- **Web App:** [http://localhost](http://localhost)
+- **phpMyAdmin:** [http://localhost:8080](http://localhost:8080)
+
+---
+
+### Option B: Local Installation (Requires PHP 8.2+ & Node.js)
+
+**1. Install PHP Dependencies**
 ```bash
 composer install
 ```
 
-**3. Install Frontend Dependencies**
-
+**2. Install Frontend Dependencies**
 ```bash
 npm install
 ```
 
-**4. Environment Configuration**
-Copy the example environment file and generate your application key:
-
+**3. Configure Environment**
 ```bash
 cp .env.example .env
 php artisan key:generate
 ```
 
-**5. Configure the Database**
-By default, the project uses SQLite. Make sure your `.env` contains:
-
+**4. Configure Database**
+By default, the local installation uses SQLite. Make sure your `.env` contains:
 ```env
 DB_CONNECTION=sqlite
-# DB_DATABASE=/absolute/path/to/database.sqlite
 ```
 
-_(If using MySQL, update `DB_CONNECTION`, `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, and `DB_PASSWORD` accordingly)._
-
-**6. Run Migrations & Seeders**
-Set up the database structure and populate it with initial dummy data:
-
+**5. Run Migrations & Seeders**
 ```bash
 php artisan migrate --seed
 ```
 
-**7. Create Storage Link**
-**Crucial Step:** You must link the storage directory to make uploaded product images publicly accessible:
-
+**6. Create Storage Link**
 ```bash
 php artisan storage:link
 ```
 
-**8. Compile Frontend Assets**
-Compile the Tailwind CSS and Alpine.js assets:
-
+**7. Compile Frontend Assets & Start Servers**
+Run Vite dev server:
 ```bash
-npm run build
-# Or use `npm run dev` for hot-reloading during development
+npm run dev
 ```
-
-**9. Start the Development Server**
-
+In a separate terminal, start Laravel dev server:
 ```bash
 php artisan serve
 ```
 
-The application will be accessible at `http://localhost:8000`.
+The application will be accessible at [http://localhost:8000](http://localhost:8000).
 
 ---
 
